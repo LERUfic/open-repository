@@ -5,11 +5,12 @@ import requests
 import os.path
 import shutil
 
+
 def readNewFile():
     file_time = 0
     file_sum = 0
     file_n = 0
-    file_new=open("/app/new.log","r")
+    file_new = open("/app/new.log", "r")
     for file_line in file_new:
         file_data = file_line.split(" ")
         file_time = float(file_data[1])
@@ -24,14 +25,15 @@ def readNewFile():
         file_avg = file_sum / file_n
     return file_avg
 
+
 def checkFirstLine():
     flag = 0
-    file_new=open("/app/new.log","r")
-    file_old=open("/app/old.log","r")
+    file_new = open("/app/new.log", "r")
+    file_old = open("/app/old.log", "r")
     for line1 in file_new:
         for line2 in file_old:
-            if line1==line2:
-                flag = 1    
+            if line1 == line2:
+                flag = 1
                 break
             else:
                 flag = 0
@@ -39,6 +41,7 @@ def checkFirstLine():
     file_new.close()
     file_old.close()
     return flag
+
 
 def diffFile():
     old = set((line.strip() for line in open('/app/old.log')))
@@ -61,26 +64,34 @@ def diffFile():
         file_avg = file_sum / file_n
     return file_avg
 
+
 if __name__ == '__main__':
 
-    active_conn = prom.Gauge('konghq_active', 'Gauge untuk mendapatkan jumlah active connection')
+    active_conn = prom.Gauge(
+        'konghq_active', 'Gauge untuk mendapatkan jumlah active connection')
     # accept_conn = prom.Gauge('konghq_accept', 'Counter untuk mendapatkan total accepted connection')
     # handle_conn = prom.Gauge('konghq_handle', 'Counter untuk mendapatkan total hundled connection')
     # request_conn = prom.Gauge('konghq_request', 'Counter untuk mendapatkan total client request')
-    accept_conn = prom.Counter('konghq_accept', 'Counter untuk mendapatkan total accepted connection')
-    handle_conn = prom.Counter('konghq_handle', 'Counter untuk mendapatkan total hundled connection')
-    request_conn = prom.Counter('konghq_request', 'Counter untuk mendapatkan total client request')
-    read_conn = prom.Gauge('konghq_reading', 'Gauge untuk mendapatkan jumlah reading connection')
-    write_conn = prom.Gauge('konghq_writing', 'Gauge untuk mendapatkan jumlah writing connection')
-    wait_conn = prom.Gauge('konghq_waiting', 'Gauge untuk mendapatkan jumlah waiting connection')
+    accept_conn = prom.Counter(
+        'konghq_accept', 'Counter untuk mendapatkan total accepted connection')
+    handle_conn = prom.Counter(
+        'konghq_handle', 'Counter untuk mendapatkan total hundled connection')
+    request_conn = prom.Counter(
+        'konghq_request', 'Counter untuk mendapatkan total client request')
+    read_conn = prom.Gauge(
+        'konghq_reading', 'Gauge untuk mendapatkan jumlah reading connection')
+    write_conn = prom.Gauge(
+        'konghq_writing', 'Gauge untuk mendapatkan jumlah writing connection')
+    wait_conn = prom.Gauge(
+        'konghq_waiting', 'Gauge untuk mendapatkan jumlah waiting connection')
 
-    rtime_desc = prom.Gauge('konghq_rtime', 'Gauge untuk mendapatkan rata-rata rtime tiap 1 detik')
-
+    rtime_desc = prom.Gauge(
+        'konghq_rtime', 'Gauge untuk mendapatkan rata-rata rtime tiap 1 detik')
 
     prom.start_http_server(8888)
-    url= "http://127.0.0.1:8001/nginx_status"
+    url = "http://127.0.0.1:8001/nginx_status"
     # url= "https://schematics.its.ac.id/server_stats"
-    
+
     file_flag = 1
     while True:
         try:
@@ -100,7 +111,7 @@ if __name__ == '__main__':
 
                 shutil.move('/app/new.log', '/app/old.log')
 
-            r = requests.get(url) 
+            r = requests.get(url)
             data = r.text.split(" ")
             active_value = int(data[2])
             accept_value = int(data[7])
@@ -122,7 +133,7 @@ if __name__ == '__main__':
             wait_conn.set(wait_value)
 
             rtime_desc.set(rtime_value)
-            
+
         except:
             pass
 
