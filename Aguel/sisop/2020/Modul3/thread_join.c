@@ -29,7 +29,7 @@ int main()
     printf("pthread_create() for thread 2 returns: %d\n",iret2);
 
     // pthread_join( thread1, NULL);
-    // pthread_join( thread2, NULL); 
+    // pthread_join( thread2, NULL);
 
     exit(EXIT_SUCCESS);
 }
@@ -40,7 +40,7 @@ void *print_message_function( void *ptr )
     message = (char *) ptr;
     printf("%s \n", message);
 
-    for(int i=0;i<10;i++){
+    for(int i=0; i<10; i++) {
         printf("%s %d \n", message, i);
     }
 }
