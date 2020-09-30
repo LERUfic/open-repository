@@ -1,13 +1,14 @@
-import os
-from selenium import webdriver
-from bs4 import BeautifulSoup
 import configparser
-import requests
+import os
 import shutil
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
+import requests
+from bs4 import BeautifulSoup
+from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class MangaDex:

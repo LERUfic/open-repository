@@ -1,9 +1,10 @@
-import prometheus_client as prom
-import random
-import time
-import requests
 import os.path
+import random
 import shutil
+import time
+
+import prometheus_client as prom
+import requests
 
 
 def readNewFile():
