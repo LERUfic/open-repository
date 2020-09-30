@@ -19,7 +19,7 @@ class MangaDex:
         try:
             self.options = webdriver.ChromeOptions()
             # self.options.add_argument('--headless')
-            self.options.add_argument('--incognito')
+            self.options.add_argument("--incognito")
             # self.options.add_argument('window-size=1200x600')
             self.driver = webdriver.Chrome(driver_path, options=self.options)
         except:
@@ -42,7 +42,7 @@ class MangaDex:
         try:
             allChapters = []
             halaman = 1
-            while(1):
+            while 1:
                 chapter_page = self.getPageChapter(halaman)
                 if chapter_page == "LERUfic-END-ATANS":
                     break
@@ -57,20 +57,20 @@ class MangaDex:
     def createMainFolder(self, allChapters):
         folder = self.manga_path.split("/")
         indexing_1 = -1
-        while(1):
-            if folder[indexing_1] == '':
+        while 1:
+            if folder[indexing_1] == "":
                 indexing_1 = indexing_1 - 1
             else:
                 indexing_2 = indexing_1 - 1
-                while(1):
-                    if folder[indexing_2] == '':
+                while 1:
+                    if folder[indexing_2] == "":
                         indexing_2 = indexing_2 - 1
                     else:
-                        main_folder = folder[indexing_2]+"-"+folder[indexing_1]
+                        main_folder = folder[indexing_2] + "-" + folder[indexing_1]
                         break
                 break
         access_rights = 0o755
-        if(os.path.isdir(main_folder)):
+        if os.path.isdir(main_folder):
             print("[EXIST] Main Folder %s" % main_folder)
         else:
             try:
@@ -84,10 +84,9 @@ class MangaDex:
             self.downloadImage(main_folder, allChapters[i])
 
     def downloadImage(self, base_folder, chapter):
-        named_folder = chapter["chapter"]+"-" + \
-            chapter["title"]+"-"+chapter["id"]
-        chapter_folder = base_folder+"/"+named_folder
-        if(os.path.isdir(chapter_folder)):
+        named_folder = chapter["chapter"] + "-" + chapter["title"] + "-" + chapter["id"]
+        chapter_folder = base_folder + "/" + named_folder
+        if os.path.isdir(chapter_folder):
             print("[EXIST] Chapter Folder %s" % chapter_folder)
         else:
             try:
@@ -98,34 +97,44 @@ class MangaDex:
             else:
                 print("[SUCCESS] Created %s" % chapter_folder)
 
-        if(os.path.isdir(chapter_folder)):
+        if os.path.isdir(chapter_folder):
             image_page = 1
             chapter_max = 99
-            print("Download Chapter " +
-                  chapter["chapter"]+" with ID "+chapter["id"])
-            while(1):
+            print(
+                "Download Chapter " + chapter["chapter"] + " with ID " + chapter["id"]
+            )
+            while 1:
                 if int(image_page) <= int(chapter_max):
-                    chapter_link = "https://mangadex.org/chapter/" + \
-                        chapter["id"]+"/"+str(image_page)
-                    print("Downloading Page "+chapter_link)
+                    chapter_link = (
+                        "https://mangadex.org/chapter/"
+                        + chapter["id"]
+                        + "/"
+                        + str(image_page)
+                    )
+                    print("Downloading Page " + chapter_link)
                     self.driver.get(chapter_link)
                     try:
-                        element = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(
-                            (By.XPATH, '//img[@class="noselect nodrag cursor-pointer" and @src]')))
-                        soup = BeautifulSoup(
-                            self.driver.page_source, 'html.parser')
+                        element = WebDriverWait(self.driver, 60).until(
+                            EC.presence_of_element_located(
+                                (
+                                    By.XPATH,
+                                    '//img[@class="noselect nodrag cursor-pointer" and @src]',
+                                )
+                            )
+                        )
+                        soup = BeautifulSoup(self.driver.page_source, "html.parser")
                         info = soup.findAll(
-                            "img", {"class": "noselect nodrag cursor-pointer"})
-                        total_pages = soup.findAll(
-                            "span", {"class": "total-pages"})
+                            "img", {"class": "noselect nodrag cursor-pointer"}
+                        )
+                        total_pages = soup.findAll("span", {"class": "total-pages"})
                         chapter_max = total_pages[0].text
                         try:
-                            image_link = info[0]['src']
+                            image_link = info[0]["src"]
                             image_name = image_link.split("/")[-1]
-                            image_file = chapter_folder+"/"+image_name
+                            image_file = chapter_folder + "/" + image_name
                             r = requests.get(image_link, stream=True)
                             if r.status_code == 200:
-                                with open(image_file, 'wb') as f:
+                                with open(image_file, "wb") as f:
                                     r.raw.decode_content = True
                                     shutil.copyfileobj(r.raw, f)
                             image_page = image_page + 1
@@ -143,24 +152,26 @@ class MangaDex:
 
     def getPageChapter(self, page):
         try:
-            page_link = self.manga_path+"/chapters/"+str(page)
+            page_link = self.manga_path + "/chapters/" + str(page)
             self.driver.get(page_link)
             try:
                 element = WebDriverWait(self.driver, 120).until(
-                    EC.presence_of_element_located((By.XPATH, '//meta[@content="MangaDex"]')))
+                    EC.presence_of_element_located(
+                        (By.XPATH, '//meta[@content="MangaDex"]')
+                    )
+                )
                 if "No results found." in self.driver.page_source:
                     return "LERUfic-END-ATANS"
                 else:
-                    soup = BeautifulSoup(
-                        self.driver.page_source, 'html.parser')
+                    soup = BeautifulSoup(self.driver.page_source, "html.parser")
                     info = soup.findAll("div", {"data-lang": "1"})
 
                     list_chapter = []
                     for i in range(len(info)):
                         chapter = {}
-                        chapter['id'] = info[i]['data-id']
-                        chapter['chapter'] = info[i]['data-chapter']
-                        chapter['title'] = info[i]['data-title']
+                        chapter["id"] = info[i]["data-id"]
+                        chapter["chapter"] = info[i]["data-chapter"]
+                        chapter["title"] = info[i]["data-title"]
                         list_chapter.append(chapter)
                     return list_chapter
             except TimeoutException:
@@ -180,12 +191,12 @@ class MangaDex:
 def configRead():
     try:
         configs = configparser.ConfigParser()
-        configs.read('config.ini')
+        configs.read("config.ini")
         config = {}
-        config['USERNAME'] = configs['USER']['USERNAME']
-        config['PASSWORD'] = configs['USER']['PASSWORD']
-        config['DRIVER_PATH'] = configs['LOCATION']['DRIVER_PATH']
-        config['MANGA_PATH'] = configs['LOCATION']['MANGA_PATH']
+        config["USERNAME"] = configs["USER"]["USERNAME"]
+        config["PASSWORD"] = configs["USER"]["PASSWORD"]
+        config["DRIVER_PATH"] = configs["LOCATION"]["DRIVER_PATH"]
+        config["MANGA_PATH"] = configs["LOCATION"]["MANGA_PATH"]
 
         return config
     except:
@@ -197,16 +208,16 @@ def main():
     config = configRead()
 
     print("Trying to start chrome...")
-    myManga = MangaDex(config['DRIVER_PATH'])
+    myManga = MangaDex(config["DRIVER_PATH"])
     print("[SUCCESS]: Opening chrome")
 
     print("Trying to set Manga Url...")
-    myManga.setMangaPath(config['MANGA_PATH'])
+    myManga.setMangaPath(config["MANGA_PATH"])
     print("[SUCCESS]: Set Manga Url")
 
     print("Getting All Chapters...")
     allChapters = myManga.getAllChapters()
-    print("[SUCCESS]: Found "+str(len(allChapters))+" Chapters")
+    print("[SUCCESS]: Found " + str(len(allChapters)) + " Chapters")
 
     myManga.createMainFolder(allChapters)
 
@@ -215,5 +226,5 @@ def main():
     print("[DONE]: Happy Reading.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
