@@ -69,33 +69,25 @@ def diffFile():
 if __name__ == "__main__":
 
     active_conn = prom.Gauge(
-        "konghq_active", "Gauge untuk mendapatkan jumlah active connection"
-    )
+        "konghq_active", "Gauge untuk mendapatkan jumlah active connection")
     # accept_conn = prom.Gauge('konghq_accept', 'Counter untuk mendapatkan total accepted connection')
     # handle_conn = prom.Gauge('konghq_handle', 'Counter untuk mendapatkan total hundled connection')
     # request_conn = prom.Gauge('konghq_request', 'Counter untuk mendapatkan total client request')
     accept_conn = prom.Counter(
-        "konghq_accept", "Counter untuk mendapatkan total accepted connection"
-    )
+        "konghq_accept", "Counter untuk mendapatkan total accepted connection")
     handle_conn = prom.Counter(
-        "konghq_handle", "Counter untuk mendapatkan total hundled connection"
-    )
+        "konghq_handle", "Counter untuk mendapatkan total hundled connection")
     request_conn = prom.Counter(
-        "konghq_request", "Counter untuk mendapatkan total client request"
-    )
+        "konghq_request", "Counter untuk mendapatkan total client request")
     read_conn = prom.Gauge(
-        "konghq_reading", "Gauge untuk mendapatkan jumlah reading connection"
-    )
+        "konghq_reading", "Gauge untuk mendapatkan jumlah reading connection")
     write_conn = prom.Gauge(
-        "konghq_writing", "Gauge untuk mendapatkan jumlah writing connection"
-    )
+        "konghq_writing", "Gauge untuk mendapatkan jumlah writing connection")
     wait_conn = prom.Gauge(
-        "konghq_waiting", "Gauge untuk mendapatkan jumlah waiting connection"
-    )
+        "konghq_waiting", "Gauge untuk mendapatkan jumlah waiting connection")
 
     rtime_desc = prom.Gauge(
-        "konghq_rtime", "Gauge untuk mendapatkan rata-rata rtime tiap 1 detik"
-    )
+        "konghq_rtime", "Gauge untuk mendapatkan rata-rata rtime tiap 1 detik")
 
     prom.start_http_server(8888)
     url = "http://127.0.0.1:8001/nginx_status"

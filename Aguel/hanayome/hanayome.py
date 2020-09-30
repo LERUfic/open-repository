@@ -67,7 +67,8 @@ class MangaDex:
                     if folder[indexing_2] == "":
                         indexing_2 = indexing_2 - 1
                     else:
-                        main_folder = folder[indexing_2] + "-" + folder[indexing_1]
+                        main_folder = folder[indexing_2] + "-" + folder[
+                            indexing_1]
                         break
                 break
         access_rights = 0o755
@@ -85,7 +86,8 @@ class MangaDex:
             self.downloadImage(main_folder, allChapters[i])
 
     def downloadImage(self, base_folder, chapter):
-        named_folder = chapter["chapter"] + "-" + chapter["title"] + "-" + chapter["id"]
+        named_folder = chapter["chapter"] + "-" + chapter[
+            "title"] + "-" + chapter["id"]
         chapter_folder = base_folder + "/" + named_folder
         if os.path.isdir(chapter_folder):
             print("[EXIST] Chapter Folder %s" % chapter_folder)
@@ -101,33 +103,26 @@ class MangaDex:
         if os.path.isdir(chapter_folder):
             image_page = 1
             chapter_max = 99
-            print(
-                "Download Chapter " + chapter["chapter"] + " with ID " + chapter["id"]
-            )
+            print("Download Chapter " + chapter["chapter"] + " with ID " +
+                  chapter["id"])
             while 1:
                 if int(image_page) <= int(chapter_max):
-                    chapter_link = (
-                        "https://mangadex.org/chapter/"
-                        + chapter["id"]
-                        + "/"
-                        + str(image_page)
-                    )
+                    chapter_link = ("https://mangadex.org/chapter/" +
+                                    chapter["id"] + "/" + str(image_page))
                     print("Downloading Page " + chapter_link)
                     self.driver.get(chapter_link)
                     try:
                         element = WebDriverWait(self.driver, 60).until(
-                            EC.presence_of_element_located(
-                                (
-                                    By.XPATH,
-                                    '//img[@class="noselect nodrag cursor-pointer" and @src]',
-                                )
-                            )
-                        )
-                        soup = BeautifulSoup(self.driver.page_source, "html.parser")
+                            EC.presence_of_element_located((
+                                By.XPATH,
+                                '//img[@class="noselect nodrag cursor-pointer" and @src]',
+                            )))
+                        soup = BeautifulSoup(self.driver.page_source,
+                                             "html.parser")
                         info = soup.findAll(
-                            "img", {"class": "noselect nodrag cursor-pointer"}
-                        )
-                        total_pages = soup.findAll("span", {"class": "total-pages"})
+                            "img", {"class": "noselect nodrag cursor-pointer"})
+                        total_pages = soup.findAll("span",
+                                                   {"class": "total-pages"})
                         chapter_max = total_pages[0].text
                         try:
                             image_link = info[0]["src"]
@@ -158,13 +153,12 @@ class MangaDex:
             try:
                 element = WebDriverWait(self.driver, 120).until(
                     EC.presence_of_element_located(
-                        (By.XPATH, '//meta[@content="MangaDex"]')
-                    )
-                )
+                        (By.XPATH, '//meta[@content="MangaDex"]')))
                 if "No results found." in self.driver.page_source:
                     return "LERUfic-END-ATANS"
                 else:
-                    soup = BeautifulSoup(self.driver.page_source, "html.parser")
+                    soup = BeautifulSoup(self.driver.page_source,
+                                         "html.parser")
                     info = soup.findAll("div", {"data-lang": "1"})
 
                     list_chapter = []
