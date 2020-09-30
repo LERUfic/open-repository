@@ -88,7 +88,7 @@ dsb.
 
 Pemrograman shell di Unix/Linux juga disebut dengan shell scripting. Untuk
 memudahkan, shell script dapat disimpan ke dalam sebuah file yang dapat
-dieksekusi kapanpun kita inginkan.   
+dieksekusi kapanpun kita inginkan.
 Manfaat belajar shell scripting:
 
 - Dapat bekerja secara efektif dan efisien karena tidak perlu mengetik
@@ -419,7 +419,7 @@ dmn=`pwd`
 echo "Dimana kita? " $dmn
 ```
 
-Output:  
+Output:
 ![hasil-quote](gambar/hasil-quote.png)
 
 Lebih banyak dapat dilihat sendiri di `man bash`
@@ -624,7 +624,7 @@ case "$jawaban" in
 esac
 ```
 
-Output:  
+Output:
 ![hasil-case](gambar/hasil-case.png)
 
 ## 1.10 Loop
@@ -790,7 +790,7 @@ do
 done
 ```
 
-Output:  
+Output:
 ![hasil-select-loop](gambar/hasil-select-loop.png)
 
 ### 1.10.5 Nesting Loops
@@ -865,7 +865,7 @@ ask_name
 reply
 ```
 
-Output:  
+Output:
 ![hasil-fungsi](gambar/hasil-fungsi.png)
 
 ### 1.11.1 Nested Functions
@@ -890,7 +890,7 @@ reply() {
 ask_name
 ```
 
-Output:  
+Output:
 ![hasil-fungsi](gambar/hasil-fungsi.png)
 
 # 2. Cron
@@ -909,12 +909,12 @@ Syntax crontab : `crontab [-u user] [-l | -r | -e] [-i]` Penjelasan :
 ## 2.1 Membuat atau mengubah cron jobs
 
 1. Ketikkan `crontab -e`
-2. Ketikkan perintah crontab sesuai aturan parameter crontab  
+2. Ketikkan perintah crontab sesuai aturan parameter crontab
    ![parameter crontab](gambar/syntax-crontab.png "parameter crontab")
 3. Untuk melihat daftar cron jobs ketikkan `crontab -l`
 
-Contoh perintah yang dijalankan crontab  
-![contoh crontab](gambar/contoh-crontab.png "contoh crontab")  
+Contoh perintah yang dijalankan crontab
+![contoh crontab](gambar/contoh-crontab.png "contoh crontab")
 Penjelasan :
 
 - setiap jam 00.00 memasukkan hasil `ls /home/tamtama` ke file
@@ -922,7 +922,7 @@ Penjelasan :
 - setiap minggu menjalankan file `script.sh` pada folder `/home/tamtama`
 
 Untuk belajar lebih lanjut perintah-perintah crontab bisa mengakses website
-[crontab guru](https://crontab.guru/).  
+[crontab guru](https://crontab.guru/).
 ![web crontab guru](gambar/crontab-guru.png "web crontab guru")
 
 # 3. AWK
@@ -986,11 +986,11 @@ tarumanegara sanjaya 732 754
 sriwijaya balaputradewa 792 835
 ```
 
-Secara default awk akan print semua baris pada file masukan:  
+Secara default awk akan print semua baris pada file masukan:
 `awk '{print}' kerajaan.txt`
 
 Print baris yang mengandung pola yang dimasukkan:
-`awk '/sanjaya/ {print}' kerajaan.txt`  
+`awk '/sanjaya/ {print}' kerajaan.txt`
 Maka hasilnya adalah sebagai berikut:
 
 ```
@@ -1004,7 +1004,7 @@ $n. Jika terdapat 4 kata pada satu baris, maka kata pertama akan disimpan pada v
 kata kedua pada variabel $2, dan seterusnya. $0 merepresentasikan semua kata
 yang ada pada satu baris.
 
-`awk '/ken/ {print $1,$2}' kerajaan.txt`  
+`awk '/ken/ {print $1,$2}' kerajaan.txt`
 Maka hasilnya adalah sebagai berikut:
 
 ```

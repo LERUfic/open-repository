@@ -405,7 +405,7 @@ Returns : 0 on Success.
 -1 on error.
 ```
 
-Example :  
+Example :
 [pipe1.c](pipe1.c)
 
 ```c
@@ -453,11 +453,11 @@ hello, world #2
 hello, world #3
 ```
 
-Pipe dengan fork  
-Diagram :  
+Pipe dengan fork
+Diagram :
 ![alt](img/pipe-fork.png)
 
-Example :  
+Example :
 [pipe-fork](pipe-fork.c)
 
 ```c
@@ -563,7 +563,7 @@ _Socket_ merupakan sebuah _end-point_ dalam sebuah proses yang saling
 berkomunikasi. Biasanya _socket_ digunakan untuk komunikasi antar proses pada
 komputer yang berbeda, namun dapat juga digunakan dalam komputer yang sama.
 
-Diagram :  
+Diagram :
 ![alt](img/socket.png "implementasi socket C")
 
 Example : [socket-server.c](socket-server.c) [socket-client.c](socket-client.c)
@@ -810,8 +810,8 @@ direktori. Dengan ketentuan :
 
 ### References
 
-https://notes.shichao.io/apue/  
-https://www.gta.ufrj.br/ensino/eel878/sockets/index.html  
-http://advancedlinuxprogramming.com/alp-folder/alp-ch05-ipc.pdf  
-https://www.geeksforgeeks.org/socket-programming-cc/  
+https://notes.shichao.io/apue/
+https://www.gta.ufrj.br/ensino/eel878/sockets/index.html
+http://advancedlinuxprogramming.com/alp-folder/alp-ch05-ipc.pdf
+https://www.geeksforgeeks.org/socket-programming-cc/
 https://www.geeksforgeeks.org/pipe-system-call/
