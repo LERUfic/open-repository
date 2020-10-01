@@ -1,1 +1,1 @@
-print('mantoels')
+print("mantoels")
