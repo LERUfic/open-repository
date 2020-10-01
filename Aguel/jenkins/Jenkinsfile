@@ -28,7 +28,7 @@ node {
     def nameApplication = 'laravel'
     def buildNumberApplication = 'v'+"${BUILD_NUMBER}"
     def buildMustApplication = 'latest'
-    
+
     def repositoryRegistry = 'lerufic/laravel'
     def credentialRegistry = 'REGISTRY'
     def urlRegistry = 'https://registry.hub.docker.com'
@@ -64,28 +64,28 @@ node {
       }
       try {
         dir("${env.WORKSPACE}"){
-          sh 'git clone '+"${repositoryTerraform}"    
+          sh 'git clone '+"${repositoryTerraform}"
         }
       }catch(Exception e) {
         dir("${env.WORKSPACE}/terraform-laravel"){
-          sh 'git pull'    
-        }           
+          sh 'git pull'
+        }
       }
     }
 
-    stage('Terraform Init') { 
+    stage('Terraform Init') {
       dir("${env.WORKSPACE}/${folderTerraform}"){
         sh 'docker run --user `id -u` -w /app -v `pwd`:/app hashicorp/terraform:light init'
       }
     }
 
-    stage('Terraform Apply') { 
+    stage('Terraform Apply') {
       dir("${env.WORKSPACE}/${folderTerraform}"){
         sh 'docker run --user `id -u` -w /app -v `pwd`:/app hashicorp/terraform:light apply -auto-approve'
       }
     }
 
-    stage('Push TFState'){ 
+    stage('Push TFState'){
     	dir("${env.WORKSPACE}/${folderTerraform}"){
 	        withCredentials([usernamePassword(credentialsId: 'GITHUB', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
 	        	sh 'git add -A'
@@ -113,7 +113,7 @@ node {
             buildNumberApplication as String
         )
     }
-    
+
     stage('Cleanup Docker'){
         dir("${env.WORKSPACE}"){
             sh 'rm -rf MyGit/'
