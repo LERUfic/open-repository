@@ -2,6 +2,7 @@
 
 For Hacktoberfest 2020
 
+
 Gonna accepting all of your PRs between 1-31 October 2020.
 
 All pull requests created between Oct 1 and Oct 31 will count, regardless of
